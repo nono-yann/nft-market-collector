@@ -80,7 +80,7 @@ CoinGecko API ──┘  (incrémental,   (horodaté,        (R0–R10,      └
 Prérequis : Python 3.11+ et Git.
 
 ```bash
-git clone <url-du-depot> && cd nft-market-collector
+git clone https://github.com/nono-yann/nft-market-collector.git && cd nft-market-collector
 python -m venv .venv
 source .venv/bin/activate            # Linux / macOS
 .venv\Scripts\Activate.ps1           # Windows PowerShell
@@ -206,4 +206,17 @@ tests/         test_quality.py test_collect.py
   données synthétiques et de la documentation ; analyse du profilage du premier run réel.
 - **Vérifications réalisées** : exécution des 27 tests, collecte réelle (07/11/2026), rejeu et seconde
   collecte pour vérifier l'idempotence et le filigrane, rejeu des 5 incidents, relecture du contrat et des règles.
-- **Parties retravaillées personnellement** : *à compléter (choix des collections, seuils, interprétation des résultats…)*.
+- **Parties retravaillées personnellement** : 
+## 11. Usage d'outils d'IA
+
+- **Outil utilisé** : Claude (Anthropic).
+- **Tâches assistées** : J'ai proposé une architecture et l'IA a rédigé l'essentiel du code (collecte, validation,
+  transformation, publication), des tests, du générateur de données synthétiques et de la documentation
+  (README, contrat, dictionnaire, ADR, synthèse PDF). Elle a aussi analysé le profilage du premier run réel.
+- **Vérifications réalisées** : exécution sur mon poste (Windows, Python 3.13) de la collecte réelle du
+  02/11/2026, de la collecte incrémentale et du rejeu (0 ligne insérée), du profilage, des 5 scénarios
+  d'incident et des 27 tests (tous réussis) ; contrôle des rapports d'exécution produits.
+- **Parties réalisées ou décidées personnellement** : choix du sujet et de la question (marché des NFT) ;
+  exécution et validation de tous les runs réels ; décision, après le profilage montrant 0,1 % de ventes,
+  d'élargir le périmètre aux offres d'achat et de passer à une collecte incrémentale ; création et
+  publication du dépôt.
