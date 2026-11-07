@@ -1,0 +1,21 @@
+{
+  "pipeline": "nft-market-collector",
+  "run_id": "20261107T211338Z",
+  "executed_at": "2026-11-07T21:13:38Z",
+  "mode": "file",
+  "contract_version": "1.2.0",
+  "status": "FAILED_EMPTY_SOURCE",
+  "warnings": [
+    "cours SOL/USD indisponible : price_usd vide"
+  ],
+  "source_files": [
+    "incident_empty_source.json"
+  ],
+  "synthetic_input": true,
+  "raw_activities": 0,
+  "out_of_scope_activities": 0,
+  "out_of_scope_by_type": {},
+  "input_rows": 0,
+  "error": "Aucune vente ni offre dans les fichiers raw",
+  "duration_seconds": 0.0
+}

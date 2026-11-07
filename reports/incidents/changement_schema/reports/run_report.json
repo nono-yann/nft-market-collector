@@ -1,0 +1,18 @@
+{
+  "pipeline": "nft-market-collector",
+  "run_id": "20261107T211338Z",
+  "executed_at": "2026-11-07T21:13:38Z",
+  "mode": "file",
+  "contract_version": "1.2.0",
+  "status": "FAILED_SCHEMA_CHANGE",
+  "warnings": [
+    "cours SOL/USD indisponible : price_usd vide"
+  ],
+  "source_files": [
+    "incident_schema_change.json"
+  ],
+  "synthetic_input": true,
+  "raw_activities": 2291,
+  "error": "Champs attendus absents de la source : ['price']. Champs reçus : ['blockTime', 'buyer', 'buyerReferral', 'collection', 'collectionSymbol', 'image', 'priceInfo', 'priceSol', 'seller', 'sellerReferral', 'signature', 'slot', 'source', 'tokenMint', 'type']",
+  "duration_seconds": 0.11
+}

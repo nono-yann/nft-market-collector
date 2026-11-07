@@ -1,0 +1,33 @@
+digraph G {
+  graph [rankdir=TB, ordering=out, fontname="Helvetica", fontsize=13, nodesep=0.35, ranksep=0.45, bgcolor=white, pad=0.2, newrank=true];
+  node  [shape=box, style="rounded,filled", fillcolor="#eef4fc", color="#2a78d6", fontname="Helvetica", fontsize=11, margin="0.12,0.06"];
+  edge  [color="#52514e", fontname="Helvetica", fontsize=9, arrowsize=0.7];
+
+  subgraph cluster_src { label="Sources externes (lecture seule)"; style="dashed"; color="#999999"; fontcolor="#52514e";
+    ME [label="API Magic Eden v2\nactivités par collection\n(ventes, offres, pools…)\n120 req/min, sans clé", fillcolor="#ffffff"];
+    CG [label="API CoinGecko\ncours SOL/USD journalier", fillcolor="#ffffff"]; }
+
+  subgraph cluster_pipe { label="Pipeline batch quotidien — src/pipeline.py — owner : Y. Monkam Nono"; style="rounded"; color="#2a78d6"; fontcolor="#0d366b";
+    COL [label="collect.py\nincrémental (filigrane)\nretry/backoff\nécriture atomique"];
+    VAL [label="validate.py\nventes | offres\nR0 schéma · R1 volume\nR2–R7 lignes, dédup\nR8 fraîcheur · R9 rejets\nR10 couverture"];
+    TR  [label="transform.py\ntypage · UTC · USD\npseudonymisation\nSHA-256 salé"];
+    PUB [label="publish.py\nUPSERT\ntransactionnel\n+ filigranes"];
+  RAW  [shape=cylinder, fillcolor="#fff4d6", color="#c98500", label="Zone raw\ndata/raw/*.json\nréponse brute + _meta\naccès owner · 90 j"]; }
+
+  REJ  [shape=cylinder, fillcolor="#fde8e8", color="#d03b3b", label="data/rejected/\ncauses de rejet\n90 j"];
+  FACT [shape=cylinder, fillcolor="#e3f5ee", color="#1baf7a", label="SQLite curated (13 mois)\nfact_sale (PK sale_id)\nfact_bid (PK bid_id)\ndim_collection\ncollection_watermark"];
+  OBS  [shape=note, fillcolor="#f1f0ec", color="#888888", label="run_report.json\n+ table run_log\nstatut · compteurs · durée"];
+  M    [fillcolor="#e3f5ee", color="#1baf7a", label="Data marts\nmart_daily_sales · mart_daily_bids\nmart_buyer_activity · mart_bidder_activity\nmart_collection_summary"];
+  HTML [fillcolor="#ffffff", color="#1baf7a", label="market_report.html\n+ exports CSV\n→ analyste NFT"];
+
+  ME -> COL; CG -> COL;
+  FACT -> COL [style=dotted, label="filigrane", constraint=false];
+  COL -> RAW -> VAL;
+  VAL -> TR [label="acceptées"];
+  VAL -> REJ [label="rejets"];
+  TR -> PUB -> FACT -> M -> HTML;
+  PUB -> OBS [style=dashed]; VAL -> OBS [style=dashed];
+  {rank=same; COL; RAW; VAL; TR; PUB}
+  {rank=same; REJ; OBS; FACT}
+  {rank=same; ME; CG}
+}

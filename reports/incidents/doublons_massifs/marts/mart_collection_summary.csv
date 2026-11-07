@@ -1,0 +1,2 @@
+collection_symbol,period_start,period_end,hours_observed,n_sales,volume_sol,volume_usd,median_sale_sol,sale_price_trend_pct,unique_buyers,repeat_buyer_rate_pct,top10pct_buyers_volume_share_pct,n_bids,unique_bidders,top_bidder_share_pct,pool_bid_share_pct,median_bid_sol,best_bid_sol,bid_to_sale_pct
+okay_bears,2026-10-08T20:20Z,2026-11-07T16:35Z,716.3,309,3337.67,,10.6644,-14.8,147,30.6,45.0,1718,198,69.3,69.3,8.8749,17.8446,83.2

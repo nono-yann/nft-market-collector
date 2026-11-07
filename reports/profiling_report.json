@@ -1,0 +1,243 @@
+{
+  "files": [
+    "magiceden_claynosaurz_20261107T210929Z.json",
+    "magiceden_famous_fox_federation_20261107T210929Z.json",
+    "magiceden_mad_lads_20261107T210929Z.json",
+    "magiceden_okay_bears_20261107T210929Z.json"
+  ],
+  "rows": 60000,
+  "columns": 15,
+  "dtypes": {
+    "signature": "str",
+    "type": "str",
+    "source": "str",
+    "tokenMint": "str",
+    "collection": "str",
+    "collectionSymbol": "str",
+    "slot": "int64",
+    "blockTime": "int64",
+    "buyerReferral": "str",
+    "seller": "str",
+    "sellerReferral": "str",
+    "price": "float64",
+    "priceInfo": "object",
+    "image": "str",
+    "buyer": "str"
+  },
+  "missing_rate": {
+    "signature": 0.0,
+    "type": 0.0,
+    "source": 0.0,
+    "tokenMint": 0.6238,
+    "collection": 0.0,
+    "collectionSymbol": 0.0,
+    "slot": 0.0,
+    "blockTime": 0.0,
+    "buyerReferral": 0.0,
+    "seller": 0.3438,
+    "sellerReferral": 0.0,
+    "price": 0.0,
+    "priceInfo": 0.0003,
+    "image": 0.6238,
+    "buyer": 0.6553
+  },
+  "duplicated_signatures": 19069,
+  "exact_duplicate_rows": 8,
+  "type_counts": {
+    "poolUpdate": 22772,
+    "bid": 20608,
+    "list": 16532,
+    "buyNow": 52,
+    "cancelBid": 19,
+    "delist": 17
+  },
+  "source_counts": {
+    "mmm": 37435,
+    "magiceden_v2": 22564,
+    "tensortrade": 1
+  },
+  "by_collection": {
+    "claynosaurz": {
+      "rows": 15000,
+      "first": "2026-11-06T08:30:36+00:00",
+      "last": "2026-11-07T21:09:52+00:00",
+      "hours_covered": 36.7,
+      "type_counts": {
+        "list": 7723,
+        "bid": 5184,
+        "poolUpdate": 2070,
+        "cancelBid": 12,
+        "buyNow": 7,
+        "delist": 4
+      },
+      "price_by_type": {
+        "bid": {
+          "min": 4.62205,
+          "median": 5.55,
+          "max": 21.11
+        },
+        "buyNow": {
+          "min": 5.141,
+          "median": 5.4448,
+          "max": 6.2350794
+        },
+        "cancelBid": {
+          "min": 5.140200002,
+          "median": 5.1404500045,
+          "max": 5.67
+        },
+        "delist": {
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "list": {
+          "min": 5.249,
+          "median": 5.4516,
+          "max": 7.33
+        },
+        "poolUpdate": {
+          "min": 4.62205,
+          "median": 5.14100001,
+          "max": 21.16
+        }
+      },
+      "distinct_buyers": 20
+    },
+    "famous_fox_federation": {
+      "rows": 15000,
+      "first": "2026-11-06T03:20:00+00:00",
+      "last": "2026-11-07T21:11:12+00:00",
+      "hours_covered": 41.9,
+      "type_counts": {
+        "list": 6948,
+        "poolUpdate": 4864,
+        "bid": 3175,
+        "buyNow": 11,
+        "delist": 2
+      },
+      "price_by_type": {
+        "bid": {
+          "min": 2.59,
+          "median": 2.8561,
+          "max": 6.0541
+        },
+        "buyNow": {
+          "min": 2.816,
+          "median": 3.002,
+          "max": 3.44
+        },
+        "delist": {
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "list": {
+          "min": 2.849,
+          "median": 3.0212,
+          "max": 9.3
+        },
+        "poolUpdate": {
+          "min": 2.59,
+          "median": 3.074,
+          "max": 6.0541
+        }
+      },
+      "distinct_buyers": 13
+    },
+    "mad_lads": {
+      "rows": 15000,
+      "first": "2026-11-06T22:01:21+00:00",
+      "last": "2026-11-07T21:08:38+00:00",
+      "hours_covered": 23.1,
+      "type_counts": {
+        "poolUpdate": 6680,
+        "bid": 6480,
+        "list": 1831,
+        "delist": 4,
+        "cancelBid": 3,
+        "buyNow": 2
+      },
+      "price_by_type": {
+        "bid": {
+          "min": 6.3317,
+          "median": 6.696,
+          "max": 29.99
+        },
+        "buyNow": {
+          "min": 10.0,
+          "median": 10.375,
+          "max": 10.75
+        },
+        "cancelBid": {
+          "min": 0.0,
+          "median": 6.89804,
+          "max": 7.21064
+        },
+        "delist": {
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "list": {
+          "min": 7.0995,
+          "median": 7.2084,
+          "max": 10.99
+        },
+        "poolUpdate": {
+          "min": 6.3317,
+          "median": 6.6891,
+          "max": 30.93
+        }
+      },
+      "distinct_buyers": 11
+    },
+    "okay_bears": {
+      "rows": 15000,
+      "first": "2026-11-07T09:12:13+00:00",
+      "last": "2026-11-07T21:09:20+00:00",
+      "hours_covered": 12.0,
+      "type_counts": {
+        "poolUpdate": 9158,
+        "bid": 5769,
+        "buyNow": 32,
+        "list": 30,
+        "delist": 7,
+        "cancelBid": 4
+      },
+      "price_by_type": {
+        "bid": {
+          "min": 1.261,
+          "median": 1.8775,
+          "max": 9.0001
+        },
+        "buyNow": {
+          "min": 1.93477935,
+          "median": 2.7969999999999997,
+          "max": 7.0
+        },
+        "cancelBid": {
+          "min": 1.439500001,
+          "median": 1.9172000009999999,
+          "max": 1.963600001
+        },
+        "delist": {
+          "min": 0.0,
+          "median": 0.0,
+          "max": 0.0
+        },
+        "list": {
+          "min": 2.6,
+          "median": 3.05,
+          "max": 25.0
+        },
+        "poolUpdate": {
+          "min": 1.261,
+          "median": 1.8525,
+          "max": 6.71
+        }
+      },
+      "distinct_buyers": 33
+    }
+  }
+}

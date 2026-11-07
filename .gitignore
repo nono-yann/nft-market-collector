@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+*.log
+*.tmp
+# Zones de données : seuls les échantillons sont versionnés
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/sample_*.json
+data/rejected/*
+!data/rejected/.gitkeep
+!data/rejected/sample_*.csv
+data/curated/*.db*
+data/curated/*
+!data/curated/.gitkeep
+!data/curated/sample_*.csv
+reports/runs/
+reports/incidents/*/pipeline.log
+demo_output/

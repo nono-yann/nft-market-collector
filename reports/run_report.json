@@ -1,0 +1,307 @@
+{
+  "pipeline": "nft-market-collector",
+  "run_id": "20261107T211915Z",
+  "executed_at": "2026-11-07T21:19:15Z",
+  "mode": "replay",
+  "contract_version": "1.2.0",
+  "status": "PASS",
+  "warnings": [],
+  "source_files": [
+    "magiceden_claynosaurz_20261107T211854Z.json",
+    "magiceden_famous_fox_federation_20261107T211854Z.json",
+    "magiceden_mad_lads_20261107T211854Z.json",
+    "magiceden_okay_bears_20261107T211854Z.json",
+    "coingecko_sol_usd_20261107T211854Z.json"
+  ],
+  "synthetic_input": false,
+  "raw_activities": 2500,
+  "out_of_scope_activities": 1882,
+  "out_of_scope_by_type": {
+    "list": 1013,
+    "poolUpdate": 863,
+    "cancelBid": 4,
+    "delist": 2
+  },
+  "input_rows": 618,
+  "accepted_rows": 618,
+  "rejected_rows": 0,
+  "duplicates_removed": 0,
+  "datasets": {
+    "sales": {
+      "input_rows": 10,
+      "accepted_rows": 10,
+      "rejected_rows": 0,
+      "duplicates_removed": 0
+    },
+    "bids": {
+      "input_rows": 608,
+      "accepted_rows": 608,
+      "rejected_rows": 0,
+      "duplicates_removed": 0
+    }
+  },
+  "rejected_file": null,
+  "quality_rules": [
+    {
+      "rule_id": "R0_SCHEMA",
+      "dimension": "validité",
+      "condition": "champs du contrat présents",
+      "action": "bloquer le run",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "all"
+    },
+    {
+      "rule_id": "R1_VOLUME",
+      "dimension": "complétude",
+      "condition": "au moins une vente ou offre",
+      "action": "bloquer le run",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "sales": 10,
+        "bids": 608
+      },
+      "dataset": "all"
+    },
+    {
+      "rule_id": "R10_COVERAGE",
+      "dimension": "complétude",
+      "condition": "fenêtre collectée jointive avec le run précédent",
+      "action": "alerte (trou de collecte daté)",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "claynosaurz": {
+          "oldest_activity": "2026-11-07T17:36:31Z",
+          "newest_activity": "2026-11-07T21:18:12Z",
+          "hours_covered": 3.7,
+          "stop_reason": "watermark_reached",
+          "watermark": "2026-11-07T21:09:52Z"
+        },
+        "famous_fox_federation": {
+          "oldest_activity": "2026-11-07T19:15:42Z",
+          "newest_activity": "2026-11-07T21:18:38Z",
+          "hours_covered": 2.0,
+          "stop_reason": "watermark_reached",
+          "watermark": "2026-11-07T21:11:12Z"
+        },
+        "mad_lads": {
+          "oldest_activity": "2026-11-07T19:19:49Z",
+          "newest_activity": "2026-11-07T21:18:42Z",
+          "hours_covered": 2.0,
+          "stop_reason": "watermark_reached",
+          "watermark": "2026-11-07T21:08:38Z"
+        },
+        "okay_bears": {
+          "oldest_activity": "2026-11-07T16:45:28Z",
+          "newest_activity": "2026-11-07T21:18:03Z",
+          "hours_covered": 4.5,
+          "stop_reason": "watermark_reached",
+          "watermark": "2026-11-07T21:09:20Z"
+        }
+      },
+      "dataset": "all"
+    },
+    {
+      "rule_id": "R2_REQUIRED",
+      "dimension": "complétude",
+      "condition": "champs obligatoires non vides",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "par_champ": {
+          "signature": 0,
+          "collectionSymbol": 0,
+          "tokenMint": 0,
+          "blockTime": 0,
+          "buyer": 0,
+          "seller": 0,
+          "price": 0
+        }
+      },
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R3_TIMESTAMP",
+      "dimension": "validité",
+      "condition": "blockTime entier entre 2021-03-01 et maintenant+10min",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R4_PRICE_RANGE",
+      "dimension": "validité",
+      "condition": "0 < price <= 100000 SOL",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R5_SELF_TRADE",
+      "dimension": "cohérence",
+      "condition": "buyer != seller",
+      "action": "rejeter (auto-vente)",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R6_COLLECTION",
+      "dimension": "cohérence",
+      "condition": "collectionSymbol = collection interrogée",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R7_UNIQUE",
+      "dimension": "unicité",
+      "condition": "clé métier signature unique dans le lot",
+      "action": "dédupliquer et compter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R8_FRESHNESS",
+      "dimension": "fraîcheur",
+      "condition": "observation la plus récente < 72 h",
+      "action": "alerte",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "newest_at": "2026-11-07T20:52:09+00:00",
+        "age_hours": 0.45
+      },
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R9_REJECT_RATE",
+      "dimension": "fiabilité",
+      "condition": "taux de rejet <= 20%",
+      "action": "bloquer la publication",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "reject_rate": 0.0
+      },
+      "dataset": "sales"
+    },
+    {
+      "rule_id": "R2_REQUIRED",
+      "dimension": "complétude",
+      "condition": "champs obligatoires non vides",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "par_champ": {
+          "signature": 0,
+          "collectionSymbol": 0,
+          "blockTime": 0,
+          "buyer": 0,
+          "price": 0
+        }
+      },
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R3_TIMESTAMP",
+      "dimension": "validité",
+      "condition": "blockTime entier entre 2021-03-01 et maintenant+10min",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R4_PRICE_RANGE",
+      "dimension": "validité",
+      "condition": "0 < price <= 100000 SOL",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R6_COLLECTION",
+      "dimension": "cohérence",
+      "condition": "collectionSymbol = collection interrogée",
+      "action": "rejeter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R7_UNIQUE",
+      "dimension": "unicité",
+      "condition": "clé métier signature+tokenMint unique dans le lot",
+      "action": "dédupliquer et compter",
+      "failures": 0,
+      "status": "PASS",
+      "details": {},
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R8_FRESHNESS",
+      "dimension": "fraîcheur",
+      "condition": "observation la plus récente < 72 h",
+      "action": "alerte",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "newest_at": "2026-11-07T21:18:41+00:00",
+        "age_hours": 0.01
+      },
+      "dataset": "bids"
+    },
+    {
+      "rule_id": "R9_REJECT_RATE",
+      "dimension": "fiabilité",
+      "condition": "taux de rejet <= 20%",
+      "action": "bloquer la publication",
+      "failures": 0,
+      "status": "PASS",
+      "details": {
+        "reject_rate": 0.0
+      },
+      "dataset": "bids"
+    }
+  ],
+  "rows_without_usd": 0,
+  "inserted_sales": 0,
+  "already_loaded_sales": 10,
+  "inserted_bids": 0,
+  "already_loaded_bids": 608,
+  "inserted_rows": 0,
+  "already_loaded_rows": 618,
+  "outputs": [
+    "data\\curated\\sales_curated.csv",
+    "data\\curated\\bids_curated.csv",
+    "data\\marts\\mart_daily_collection.csv",
+    "data\\marts\\mart_buyer_activity.csv",
+    "data\\marts\\mart_bidder_activity.csv",
+    "data\\marts\\mart_collection_summary.csv",
+    "reports\\market_report.html"
+  ],
+  "database_totals": {
+    "sales": 52,
+    "bids": 20645
+  },
+  "duration_seconds": 2.37
+}

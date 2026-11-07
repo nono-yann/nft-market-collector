@@ -1,0 +1,57 @@
+[
+  {
+    "scenario": "source_indisponible",
+    "status": "FAILED_SOURCE_UNAVAILABLE",
+    "error": "Aucune collection collectée : {'mad_lads': 'mad_lads : unavailable dès la 1re page (http://127.0.0.1:9/collections/mad_lads/activities indisponible après 2 tentatives : HTTPConnectionPool(host=\\'127.0.0.1\\', port=9): Max retries exceeded with url: /collections/mad_lads/activities?offset=0&limit=500 (Caused by NewConnectionError(\"HTTPConnection(host=\\'127.0.0.1\\', port=9): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\")))', 'okay_bears': 'okay_bears : unavailable dès la 1re page (http://127.0.0.1:9/collections/okay_bears/activities indisponible après 2 tentatives : HTTPConnectionPool(host=\\'127.0.0.1\\', port=9): Max retries exceeded with url: /collections/okay_bears/activities?offset=0&limit=500 (Caused by NewConnectionError(\"HTTPConnection(host=\\'127.0.0.1\\', port=9): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\")))', 'claynosaurz': 'claynosaurz : unavailable dès la 1re page (http://127.0.0.1:9/collections/claynosaurz/activities indisponible après 2 tentatives : HTTPConnectionPool(host=\\'127.0.0.1\\', port=9): Max retries exceeded with url: /collections/claynosaurz/activities?offset=0&limit=500 (Caused by NewConnectionError(\"HTTPConnection(host=\\'127.0.0.1\\', port=9): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\")))', 'famous_fox_federation': 'famous_fox_federation : unavailable dès la 1re page (http://127.0.0.1:9/collections/famous_fox_federation/activities indisponible après 2 tentatives : HTTPConnectionPool(host=\\'127.0.0.1\\', port=9): Max retries exceeded with url: /collections/famous_fox_federation/activities?offset=0&limit=500 (Caused by NewConnectionError(\"HTTPConnection(host=\\'127.0.0.1\\', port=9): Failed to establish a new connection: [WinError 10061] Aucune connexion n’a pu être établie car l’ordinateur cible l’a expressément refusée\")))'}",
+    "input_rows": null,
+    "accepted_rows": null,
+    "rejected_rows": null,
+    "duplicates_removed": null,
+    "published": false,
+    "evidence": "reports/incidents/source_indisponible/"
+  },
+  {
+    "scenario": "changement_schema",
+    "status": "FAILED_SCHEMA_CHANGE",
+    "error": "Champs attendus absents de la source : ['price']. Champs reçus : ['blockTime', 'buyer', 'buyerReferral', 'collection', 'collectionSymbol', 'image', 'priceInfo', 'priceSol', 'seller', 'sellerReferral', 'signature', 'slot', 'source', 'tokenMint', 'type']",
+    "input_rows": null,
+    "accepted_rows": null,
+    "rejected_rows": null,
+    "duplicates_removed": null,
+    "published": false,
+    "evidence": "reports/incidents/changement_schema/"
+  },
+  {
+    "scenario": "source_vide",
+    "status": "FAILED_EMPTY_SOURCE",
+    "error": "Aucune vente ni offre dans les fichiers raw",
+    "input_rows": 0,
+    "accepted_rows": null,
+    "rejected_rows": null,
+    "duplicates_removed": null,
+    "published": false,
+    "evidence": "reports/incidents/source_vide/"
+  },
+  {
+    "scenario": "doublons_massifs",
+    "status": "PASS_WITH_WARNINGS",
+    "error": null,
+    "input_rows": 6114,
+    "accepted_rows": 2027,
+    "rejected_rows": 18,
+    "duplicates_removed": 4069,
+    "published": true,
+    "evidence": "reports/incidents/doublons_massifs/"
+  },
+  {
+    "scenario": "valeurs_impossibles",
+    "status": "FAILED_QUALITY",
+    "error": null,
+    "input_rows": 2038,
+    "accepted_rows": 1889,
+    "rejected_rows": 145,
+    "duplicates_removed": 4,
+    "published": false,
+    "evidence": "reports/incidents/valeurs_impossibles/"
+  }
+]

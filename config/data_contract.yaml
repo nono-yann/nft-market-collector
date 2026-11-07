@@ -1,0 +1,87 @@
+dataset: nft_market_curated (fact_sale + fact_bid)
+version: "1.2.0"
+status: active
+owner: Yann Monkam Nono (ESEO, Data & AI) - responsable de la définition et de la qualité
+consumers:
+  - Rapport HTML reports/market_report.html
+  - Data marts data/marts/*.csv
+grain:
+  fact_sale: >
+    Une ligne représente UNE vente (activité buyNow) d'UN NFT d'une collection Solana suivie,
+    exécutée sur Magic Eden, identifiée par la signature de la transaction Solana.
+  fact_bid: >
+    Une ligne représente UNE offre d'achat (activité bid) posée sur un NFT précis ou sur toute
+    la collection (pool), identifiée par la signature et le mint visé.
+business_key:
+  fact_sale: sale_id             # = signature de la transaction Solana
+  fact_bid: bid_id               # = signature + ":" + tokenMint (ou "collection")
+source:
+  name: Magic Eden public API v2
+  endpoint: GET /v2/collections/{symbol}/activities
+  enrichment: CoinGecko /coins/solana/market_chart (cours SOL/USD journalier)
+refresh: quotidien (batch incrémental, filigrane par collection dans collection_watermark)
+retention:
+  raw: 90 jours (rejeu possible, puis purge)
+  rejected: 90 jours
+  curated: 13 mois glissants
+  run_reports: 13 mois
+
+# Champs attendus dans la source brute (contrôle de schéma bloquant)
+# (tokenMint et seller n'existent pas pour toutes les activités : contrôlés par R2 selon le jeu)
+raw_required_fields:
+  - signature
+  - type
+  - collectionSymbol
+  - blockTime
+  - buyer
+  - price
+
+curated_fields:
+  - {name: sale_id,           type: string,   required: true,  description: "Signature de la transaction Solana (clé métier)"}
+  - {name: collection_symbol, type: string,   required: true,  description: "Symbole Magic Eden de la collection"}
+  - {name: token_mint,        type: string,   required: true,  description: "Adresse mint du NFT vendu (identifiant public de l'actif)"}
+  - {name: sold_at,           type: datetime, required: true,  description: "Horodatage de la vente, UTC ISO 8601"}
+  - {name: sale_date,         type: date,     required: true,  description: "Date UTC de la vente (AAAA-MM-JJ)"}
+  - {name: price_sol,         type: float,    required: true,  description: "Prix payé en SOL, > 0"}
+  - {name: sol_usd_rate,      type: float,    required: false, description: "Cours SOL/USD du jour (CoinGecko), vide si indisponible"}
+  - {name: price_usd,         type: float,    required: false, description: "price_sol * sol_usd_rate"}
+  - {name: buyer_id,          type: string,   required: true,  description: "Pseudonyme de l'acheteur : SHA-256(sel + wallet), 16 caractères"}
+  - {name: seller_id,         type: string,   required: true,  description: "Pseudonyme du vendeur : SHA-256(sel + wallet), 16 caractères"}
+  - {name: marketplace_source, type: string,  required: false, description: "Programme de marché indiqué par la source (champ source)"}
+  - {name: run_id,            type: string,   required: true,  description: "Identifiant de l'exécution qui a ingéré la ligne"}
+  - {name: source_file,       type: string,   required: true,  description: "Fichier raw d'origine (traçabilité)"}
+  - {name: contract_version,  type: string,   required: true,  description: "Version du contrat appliquée"}
+
+bid_fields:
+  - {name: bid_id,            type: string,   required: true,  description: "signature:tokenMint (clé métier)"}
+  - {name: collection_symbol, type: string,   required: true,  description: "Symbole Magic Eden de la collection"}
+  - {name: token_mint,        type: string,   required: false, description: "NFT visé ; vide pour une offre de collection"}
+  - {name: bid_scope,         type: enum,     required: true,  description: "token | collection"}
+  - {name: bid_channel,       type: enum,     required: true,  description: "pool_amm (source mmm, automatisée) | manuelle (magiceden_v2)"}
+  - {name: bid_at,            type: datetime, required: true,  description: "Horodatage UTC ISO 8601"}
+  - {name: bid_date,          type: date,     required: true,  description: "Date UTC"}
+  - {name: price_sol,         type: float,    required: true,  description: "Montant offert en SOL, > 0"}
+  - {name: sol_usd_rate,      type: float,    required: false, description: "Cours SOL/USD du jour"}
+  - {name: price_usd,         type: float,    required: false, description: "price_sol * sol_usd_rate"}
+  - {name: bidder_id,         type: string,   required: true,  description: "Pseudonyme de l'enchérisseur (SHA-256 salé, 16 car.)"}
+  - {name: run_id,            type: string,   required: true,  description: "Run de première ingestion"}
+  - {name: source_file,       type: string,   required: true,  description: "Fichier raw d'origine"}
+  - {name: contract_version,  type: string,   required: true,  description: "Version du contrat appliquée"}
+
+quality_rules:
+  - {id: R0_SCHEMA,       dimension: validité,     condition: "tous les raw_required_fields existent dans la source", action: "bloquer le run"}
+  - {id: R1_VOLUME,       dimension: complétude,   condition: "au moins 1 vente ou offre reçue", action: "bloquer le run"}
+  - {id: R2_REQUIRED,     dimension: complétude,   condition: "ventes : signature, collectionSymbol, tokenMint, blockTime, buyer, seller, price ; offres : signature, collectionSymbol, blockTime, buyer, price", action: "rejeter la ligne"}
+  - {id: R3_TIMESTAMP,    dimension: validité,     condition: "blockTime entier, >= min_block_time et <= maintenant + tolérance", action: "rejeter la ligne"}
+  - {id: R4_PRICE_RANGE,  dimension: validité,     condition: "0 < price <= max_price_sol", action: "rejeter la ligne"}
+  - {id: R5_SELF_TRADE,   dimension: cohérence,    condition: "ventes : buyer différent de seller", action: "rejeter la ligne (auto-vente)"}
+  - {id: R6_COLLECTION,   dimension: cohérence,    condition: "collectionSymbol égal à la collection interrogée", action: "rejeter la ligne"}
+  - {id: R7_UNIQUE,       dimension: unicité,      condition: "clé métier unique dans le lot (dédup) et en base (ON CONFLICT)", action: "dédupliquer et compter"}
+  - {id: R8_FRESHNESS,    dimension: fraîcheur,    condition: "observation la plus récente âgée de moins de freshness_max_hours", action: "alerte (warning)"}
+  - {id: R9_REJECT_RATE,  dimension: fiabilité,    condition: "taux de rejet <= max_reject_rate (par jeu)", action: "bloquer la publication si dépassé"}
+  - {id: R10_COVERAGE,    dimension: complétude,   condition: "si max_pages est atteint, l'activité la plus ancienne reçue doit précéder le filigrane", action: "alerte avec le trou daté"}
+
+changelog:
+  - {version: "1.0.0", change: "Contrat initial (séance 1) : prix, date, collection"}
+  - {version: "1.1.0", change: "Ajout buyer_id/seller_id pseudonymisés, price_usd via CoinGecko, règles R5, R6, R9"}
+  - {version: "1.2.0", change: "Après profilage du raw réel (0,1 % de ventes) : ajout du jeu fact_bid, collecte incrémentale par filigrane, règle R10 ; tokenMint et seller retirés des champs raw obligatoires globaux"}

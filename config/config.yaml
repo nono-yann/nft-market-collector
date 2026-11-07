@@ -1,0 +1,60 @@
+# Configuration du pipeline NFT Market Collector
+# Aucun secret ici : la clé API éventuelle passe par la variable d'environnement MAGICEDEN_API_KEY.
+
+pipeline:
+  name: nft-market-collector
+  contract_path: config/data_contract.yaml
+  log_file: logs/pipeline.log
+
+paths:
+  raw_dir: data/raw
+  curated_dir: data/curated
+  rejected_dir: data/rejected
+  marts_dir: data/marts
+  reports_dir: reports
+  database: data/curated/nft_market.db
+
+# Source 1 : API publique Magic Eden (Solana) - activités d'une collection
+magiceden:
+  base_url: https://api-mainnet.magiceden.dev/v2
+  endpoint: /collections/{symbol}/activities
+  collections:            # symboles Magic Eden des collections suivies
+    - mad_lads
+    - okay_bears
+    - claynosaurz
+    - famous_fox_federation
+  page_size: 500          # paramètre limit de l'API
+  max_pages: 30           # garde-fou : 30 x 500 = 15 000 activités max par collection et par run
+  lookback_days: 7        # 1er run : fenêtre visée (en pratique limitée par max_pages, cf. profilage)
+  overlap_minutes: 60     # runs suivants : on recollecte 1 h avant le filigrane (dédup ensuite)
+  sleep_seconds: 0.6      # < 2 requêtes/s pour rester sous la limite de 120 req/min
+  timeout_seconds: 20
+  max_retries: 3
+  sale_types:             # types d'activité considérés comme des ventes
+    - buyNow
+  bid_types:              # types d'activité considérés comme des offres d'achat
+    - bid
+
+# Source 2 : CoinGecko - cours SOL/USD journalier (enrichissement)
+coingecko:
+  enabled: true
+  url: https://api.coingecko.com/api/v3/coins/solana/market_chart
+  params:
+    vs_currency: usd
+    days: 90
+    interval: daily
+  timeout_seconds: 20
+  max_retries: 3
+
+quality:
+  max_price_sol: 100000        # au-delà : valeur jugée impossible
+  min_block_time: "2021-03-01" # lancement de l'activité NFT Solana sur Magic Eden
+  future_tolerance_minutes: 10
+  freshness_max_hours: 72      # alerte si la vente la plus récente est plus ancienne
+  max_reject_rate: 0.20        # au-delà : statut FAILED_QUALITY (publication bloquée)
+  warn_reject_rate: 0.02       # au-delà : PASS_WITH_WARNINGS
+
+privacy:
+  # Le sel de pseudonymisation des wallets doit être fourni par variable d'environnement
+  # WALLET_HASH_SALT. Une valeur de démonstration est utilisée si elle est absente (warning).
+  salt_env_var: WALLET_HASH_SALT

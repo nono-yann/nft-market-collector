@@ -1,0 +1,14 @@
+digraph G {
+  graph [rankdir=LR, fontname="Helvetica", bgcolor=white, pad=0.2, nodesep=0.3, ranksep=0.4,
+         label="Architecture V1 (séances 1-2) : une source, script unique, CSV curated", labelloc=t, fontsize=13];
+  node [shape=box, style="rounded,filled", fillcolor="#eef4fc", color="#2a78d6", fontname="Helvetica", fontsize=11];
+  edge [color="#52514e", arrowsize=0.7];
+  S [label="Source\nAPI Magic Eden\n(1 collection)\nowner : Magic Eden", fillcolor="#ffffff"];
+  C [label="Collecteur\nscript Python\n(sans reprise)"];
+  R [shape=cylinder, fillcolor="#fff4d6", color="#c98500", label="Zone raw\nJSON horodaté"];
+  V [label="Validation\n5 règles"];
+  K [shape=cylinder, fillcolor="#e3f5ee", color="#1baf7a", label="Zone curated\nCSV écrasé"];
+  J [shape=cylinder, fillcolor="#fde8e8", color="#d03b3b", label="Rejets\nCSV"];
+  A [label="Restitution\ntableau prix / volume\nen SOL", fillcolor="#ffffff", color="#1baf7a"];
+  S -> C -> R -> V -> K -> A; V -> J;
+}

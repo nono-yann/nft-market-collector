@@ -1,0 +1,5 @@
+collection_symbol,period_start,period_end,hours_observed,n_sales,volume_sol,volume_usd,median_sale_sol,sale_price_trend_pct,unique_buyers,repeat_buyer_rate_pct,top10pct_buyers_volume_share_pct,n_bids,unique_bidders,top_bidder_share_pct,pool_bid_share_pct,median_bid_sol,best_bid_sol,bid_to_sale_pct
+claynosaurz,2026-11-06T08:53Z,2026-11-07T21:15Z,36.4,7,38.47,3422.38,5.4448,-0.8,7,0.0,16.2,5184,18,71.7,28.3,5.55,21.11,101.9
+famous_fox_federation,2026-11-06T03:20Z,2026-11-07T21:14Z,41.9,11,33.39,2970.02,3.002,3.4,7,28.6,36.0,3181,13,31.9,99.7,2.8561,6.0541,95.1
+mad_lads,2026-11-06T22:01Z,2026-11-07T21:18Z,23.3,2,20.75,1841.98,10.375,,2,0.0,51.8,6511,11,49.6,82.5,6.6958,29.99,64.5
+okay_bears,2026-11-07T09:12Z,2026-11-07T21:17Z,12.1,32,94.05,8349.05,2.797,14.6,20,35.0,27.2,5769,32,74.7,80.9,1.8776,9.0001,67.1
