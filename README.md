@@ -199,13 +199,6 @@ scripts/       profile_raw.py incident_demo.py make_synthetic_data.py
 tests/         test_quality.py test_collect.py
 ```
 
-## 11. Usage d'outils d'IA
-
-- **Outil utilisé** : Claude (Anthropic).
-- **Tâches assistées** : proposition d'architecture, première version du code, des tests, du générateur de
-  données synthétiques et de la documentation ; analyse du profilage du premier run réel.
-- **Vérifications réalisées** : exécution des 27 tests, collecte réelle (07/11/2026), rejeu et seconde
-  collecte pour vérifier l'idempotence et le filigrane, rejeu des 5 incidents, relecture du contrat et des règles.
 - **Parties retravaillées personnellement** : 
 ## 11. Usage d'outils d'IA
 
